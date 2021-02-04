@@ -1,0 +1,24 @@
+# Case "or x = y" ví dụ  or 1 = 1 ; or '1' = '1'
+reject tcp any any -> $HOME_NET 80 (msg:"OR_SQL Injection Attempt"; pcre:"/or\s*'.*'\s*=\s*'.*'/i"; sid:1000001; rev:1;)
+reject tcp any any -> $HOME_NET 80 (msg:"OR_SQL Injection Attempt"; pcre:"/or\s*\d+\s*=\s*\d+/i"; sid:1000002; rev:1;)
+
+# Case "and x = y" ví dụ  and 1 = 1 ; and '1' = '1'
+reject tcp any any -> $HOME_NET 80 (msg:"OR_SQL Injection Attempt"; pcre:"/and\s*'.*'\s*=\s*'.*'/i"; sid:1000003; rev:1;)
+reject tcp any any -> $HOME_NET 80 (msg:"OR_SQL Injection Attempt"; pcre:"/and\s*\d+\s*=\s*\d+/i"; sid:1000004; rev:1;)
+
+# Case "union select x FROM"  ví dụ: union select 1 from USER
+reject tcp any any -> $HOME_NET 80 (msg:"UNION_SQL Injection Attempt"; pcre:"/union\s*select\s+.+\s+from/i"; sid:1000005; rev:1;)
+
+# Case " x order by y"  ví dụ: 1 order by; '1' order by; 1' order by
+reject tcp any any -> $HOME_NET 80 (msg:"ORDER_BY_SQL Injection Attempt"; pcre:"/'\s+order by\s+/i"; sid:1000006; rev:1;)
+# \s là khoảng trắng 
+# \S không là kí tự khoảng trắng
+# \d kí tự số
+# /.../i so khớp không phân biệt viết hoa
+# A|B điều kiện A hoặc B 
+# + có ít nhất 1 kí tự
+# * có ít nhất 0 kí tự
+
+
+
+
